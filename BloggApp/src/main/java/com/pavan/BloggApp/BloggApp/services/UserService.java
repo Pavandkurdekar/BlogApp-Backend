@@ -18,7 +18,6 @@ public class UserService{
 	
 	
 	
-	
 	//Method to create an user
 	public User createuser(User user)
 	{
@@ -40,31 +39,46 @@ public class UserService{
 	
 	
 	//Method to update user
-	public User updateuser(User user , int id)
+	public String updateuser(User user , int id)
 	{
 		
 		
 		Optional<User> fuser = repo.findById(id);
-		User existinguser = fuser.get();
 		
-		existinguser.setName(user.getName());
-		existinguser.setEmail(user.getEmail());
-		existinguser.setPassword(user.getPassword());
-		existinguser.setAbout(user.getAbout());
-		
-		
-		return existinguser;
+		if (fuser.isPresent())
+		{
+			User existinguser = fuser.get();
+			
+			existinguser.setName(user.getName());
+			existinguser.setEmail(user.getEmail());
+			existinguser.setPassword(user.getPassword());
+			existinguser.setAbout(user.getAbout());
+			
+			repo.save(existinguser);
+			
+			return "User Updated!!!";
+		}
+			
+		return "User Not Found!!!";
 	}
 	
 	
 	//Method to get user by id
-	public User getuserbyid(int id)
+	public String getuserbyid(int id)
 	{
 		Optional<User> id_user = repo.findById(id);
 		
-		User fuser = id_user.get();
+		if(id_user.isPresent())
+		{
+			User u = id_user.get();
+			String u1 = u.toString();
+			return u1;
+		}
+		else {
+			return "User with the id "+id+" not found!!!";
+		}
 		
-		return fuser;
+		
 	}
 	
 	
@@ -76,11 +90,11 @@ public class UserService{
     if(id_user.isPresent())
         {
 	       repo.deleteById(id);
-	       return "User with id" +id+" got deleted!!!";
+	       return "User with id " +id+" got deleted!!!";
         }
     else 
         {
-	       return "User with the "+id+" not found";
+	       return "User with the id "+id+" not found";
         }
 	
 		
