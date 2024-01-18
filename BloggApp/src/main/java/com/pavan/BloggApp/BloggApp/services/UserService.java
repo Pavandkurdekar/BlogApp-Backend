@@ -10,6 +10,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.pavan.BloggApp.BloggApp.Entities.User;
 import com.pavan.BloggApp.BloggApp.repositories.UserRepo;
 
+import jakarta.validation.Valid;
+
 
 @Service
 public class UserService{
@@ -20,10 +22,17 @@ public class UserService{
 	
 	
 	//Method to create an user
-	public User createuser(User user)
+	public ResponseEntity<?> createuser(@Valid User user)
 	{
-	User newuser = repo.save(user);
-	return newuser;
+		try {
+			User newuser = repo.save(user);
+			return ResponseEntity.ok().body(newuser);
+		}
+		catch(Exception e)
+		{
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	
 	}
 	
 	
