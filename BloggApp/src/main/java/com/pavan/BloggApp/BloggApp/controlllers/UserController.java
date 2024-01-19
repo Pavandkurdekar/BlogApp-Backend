@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pavan.BloggApp.BloggApp.Entities.User;
 import com.pavan.BloggApp.BloggApp.services.UserService;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -59,7 +57,7 @@ public class UserController {
 	
 	//controller to update user
 	@PutMapping("/updateuser/{id}") 
-	public ResponseEntity<?> updateuser(@Valid @RequestBody User user ,@PathVariable int id) 
+	public ResponseEntity<?> updateuser(@RequestBody User user ,@PathVariable int id) 
 	{
 		ResponseEntity<?> response = userservice.updateuser(user, id);
 		

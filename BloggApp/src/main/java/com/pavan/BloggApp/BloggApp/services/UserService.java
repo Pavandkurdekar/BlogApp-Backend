@@ -47,7 +47,7 @@ public class UserService{
 	
 	
 	//Method to update user
-	public ResponseEntity<?> updateuser(User user , int id)
+	public ResponseEntity<?> updateuser(@Valid User user , int id)
 	{
 		
 		try {
@@ -76,7 +76,7 @@ public class UserService{
 		}
 		catch(Exception e)
 		{
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please Enter Valid User Credentials!!!");
 		}
 	
 			
