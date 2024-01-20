@@ -1,11 +1,17 @@
 package com.pavan.BloggApp.BloggApp.Entities;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -40,6 +46,11 @@ public class User {
 	
 	@NotEmpty( message = "About Section Cannot Be Empty!!! ")
 	private String about;
+	
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	private List<Post> posts = new ArrayList<Post>();
+
 
 
 	public int getId() {
