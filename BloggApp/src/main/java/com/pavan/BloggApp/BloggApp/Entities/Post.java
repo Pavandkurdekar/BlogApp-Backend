@@ -114,6 +114,12 @@ public class Post {
 		this.category = category;
 		this.user = user;
 	}
+
+
+	public Post() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 	
