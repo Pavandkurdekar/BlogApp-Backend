@@ -1,7 +1,9 @@
 package com.pavan.BloggApp.BloggApp.Exceptions;
 
+@SuppressWarnings("serial")
 public class CustomExceptions extends Exception{
 	
+
 	public String getMessageforuser(int id)
 	{
 		return "User With Id "+id+" Not Found";

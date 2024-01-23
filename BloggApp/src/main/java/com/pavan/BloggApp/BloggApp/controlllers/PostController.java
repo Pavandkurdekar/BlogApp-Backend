@@ -2,12 +2,12 @@ package com.pavan.BloggApp.BloggApp.controlllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.pavan.BloggApp.BloggApp.Entities.Post;
 import com.pavan.BloggApp.BloggApp.services.PostServices;
 
@@ -26,5 +26,25 @@ public class PostController {
 		
 		return response;
 	}
-
+	
+	//GET ALL POST BY CATEGORY
+	@GetMapping("/get/{id}/posts")
+	public ResponseEntity<?> getpostbycategory(@PathVariable int id) 
+	{
+		ResponseEntity<?> response = postservice.getpostbycategory(id);
+		return response;
+	}
+ 
+	
+	//GET ALL POST BY USER
+	@GetMapping("/get/user/{id}/posts")
+	public ResponseEntity<?> getpostbyuser(@PathVariable int id) 
+	{
+		ResponseEntity<?> response = postservice.getpostsbyuser(id);
+		return response;
+	}
+ 
+   
+	
+	
 }

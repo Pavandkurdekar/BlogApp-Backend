@@ -1,13 +1,13 @@
 package com.pavan.BloggApp.BloggApp.services;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.pavan.BloggApp.BloggApp.Entities.Category;
 import com.pavan.BloggApp.BloggApp.Entities.Post;
 import com.pavan.BloggApp.BloggApp.Entities.User;
@@ -66,19 +66,71 @@ public class PostServices {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception2);            }
         }
     }
+    
+    
 
+    //FIND ALL POST BY CATEGORY
+    public ResponseEntity<?> getpostbycategory(int id)  {
+    	
+    	Optional<Category> cat = catrepo.findById(id);
+    	try {
+    		if(cat.isPresent())
+        	{
+        		Category cat1 = cat.get();
+        		
+        			List<Post> posts = postrepo.findByCategory(cat1);
+        			return ResponseEntity.ok().body(posts);
+        	}
+    		else {
+    			throw new CustomExceptions();
+    		}
+    	}
+    	catch(CustomExceptions ex)
+    	{
+    		String exception = ex.getMessageforcategory(id);
+    		System.out.println(exception);
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception);
+    	}
+    }
+  
+    
+    
+    //GET ALL POSTS BY USER
+    public ResponseEntity<?> getpostsbyuser(int id)
+    {
+    	Optional<User> u = userrepo.findById(id);
+    	try {
+    		
+    		if(u.isPresent())
+    		{
+    			User u1 = u.get();
+    			List<Post> posts = postrepo.findByUser(u1);
+    			return ResponseEntity.ok().body(posts);
+    		}
+    		else {
+    			throw new CustomExceptions();
+    		}
+    		
+    	}
+    	catch(CustomExceptions ex)
+    	{
+    		String response = ex.getMessageforuser(id);
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    	}
+    }
+    
+    
+    //UPDATE POST
 	
-	//UPDATE POST
+  	//DELETE POST
+  	
+  	//GET ALL POST
+  	
+  	//GET SINGLE POST BY ID
+  	
+  	//GET POSTS BY CATEGORY
 	
-	//DELETE POST
 	
-	//GET ALL POST
-	
-	//GET SINGLE POST BY ID
-	
-	//GET POSTS BY CATEGORY
-	
-	//GET ALL POSTS BY USER
 	
 	//SEARCH POSTS
 
