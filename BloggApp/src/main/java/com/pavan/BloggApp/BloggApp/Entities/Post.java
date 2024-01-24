@@ -27,7 +27,6 @@ public class Post {
 	
 	
 	@ManyToOne
-	@JoinColumn
 	private Category category;
 	
 	

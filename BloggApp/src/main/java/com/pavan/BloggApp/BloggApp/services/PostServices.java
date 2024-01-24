@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.pavan.BloggApp.BloggApp.Entities.Category;
 import com.pavan.BloggApp.BloggApp.Entities.Post;
 import com.pavan.BloggApp.BloggApp.Entities.User;
@@ -105,7 +107,14 @@ public class PostServices {
     		{
     			User u1 = u.get();
     			List<Post> posts = postrepo.findByUser(u1);
-    			return ResponseEntity.ok().body(posts);
+    			if(posts.isEmpty())
+    			{
+    				return ResponseEntity.status(HttpStatus.OK).body("This User Does Not Have Any Posts!!!");
+    			}
+    			else {
+    				return ResponseEntity.ok().body(posts);
+    			}
+    			
     		}
     		else {
     			throw new CustomExceptions();
@@ -120,13 +129,57 @@ public class PostServices {
     }
     
     
+    
+ 	//GET ALL POST
+    public ResponseEntity<?> getallposts()
+    {
+    	try {
+    		List<Post> posts = postrepo.findAll();
+    		if(posts.isEmpty())
+    		{
+    			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"INTERNAL SERVER ERROR!!!");
+    		}
+    		else {
+    			return ResponseEntity.ok().body(posts);
+    		}
+    	}
+    	catch(ResponseStatusException ex)
+    	{
+    		return ResponseEntity.status(ex.getStatusCode()).body(ex.getReason());
+    	}
+    }
+    
+    
+    
+    
+ 	
+  	//GET SINGLE POST BY ID
+    public ResponseEntity<?> getpostbyid(int id)
+    {
+    	try {
+    		Optional<Post> post = postrepo.findById(id);
+    		if(post.isPresent())
+    		{
+    			Post post1 = post.get();
+    			return ResponseEntity.ok().body(post1);
+    		}
+    		else {
+    			throw new CustomExceptions();
+    		}
+    	}
+    		catch(CustomExceptions ex)
+    		{
+    			String exception = ex.getMessageforpost(id);
+    			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception);
+    		}
+    	
+    }
     //UPDATE POST
 	
   	//DELETE POST
   	
-  	//GET ALL POST
-  	
-  	//GET SINGLE POST BY ID
+ 
+ 
   	
   	//GET POSTS BY CATEGORY
 	

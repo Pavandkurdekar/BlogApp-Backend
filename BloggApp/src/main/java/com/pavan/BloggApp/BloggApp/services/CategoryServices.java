@@ -30,7 +30,7 @@ public class CategoryServices {
 			
 			Category response = catrepo.save(cat);
 			return ResponseEntity.ok().body(response);
-			//throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Custom Message");
+			
 		}
 		catch (Exception e) {
 			
