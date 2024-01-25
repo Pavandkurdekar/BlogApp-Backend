@@ -30,7 +30,6 @@ public class PostServices {
     @Autowired
     CategoryRepository catrepo;
 
-
     
     
     // CREATE POST
@@ -151,7 +150,6 @@ public class PostServices {
     
     
     
-    
  	
   	//GET SINGLE POST BY ID
     public ResponseEntity<?> getpostbyid(int id)
@@ -161,6 +159,8 @@ public class PostServices {
     		if(post.isPresent())
     		{
     			Post post1 = post.get();
+    			System.out.println(post1.getUser());
+    			System.out.println(post1.getCategory());
     			return ResponseEntity.ok().body(post1);
     		}
     		else {
@@ -174,17 +174,63 @@ public class PostServices {
     		}
     	
     }
-    //UPDATE POST
+    
+    
+    
+    
+    //UPDATE POST BY ID
+	public ResponseEntity<?> updatepost(Post editedpost, int id) {
+		
+		try {
+			Optional<Post> post = postrepo.findById(id);
+			if(post.isPresent())
+			{
+				
+				Post newpost = post.get();
+				newpost.setTitle(editedpost.getTitle());
+			    newpost.setContent(editedpost.getContent());
+			    newpost.setImagename(editedpost.getImagename());
+			    Post newpost1 = postrepo.save(newpost);
+			    return ResponseEntity.ok().body(newpost1);
+			    
+			}
+			else {
+				throw new CustomExceptions();
+			}
+		}
+		catch(CustomExceptions ex)
+		{
+			
+			String exception = ex.getMessageforpost(id);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception);
+		}
+		
+	}
 	
-  	//DELETE POST
-  	
- 
- 
-  	
-  	//GET POSTS BY CATEGORY
 	
 	
-	
-	//SEARCH POSTS
+    
+	//DELETE POST BY ID
+    public ResponseEntity<?> deletepost(int id)
+    {
+    	try {
+    		Optional<Post> post = postrepo.findById(id);
+    		if(post.isPresent())
+    		{
+    			postrepo.deleteById(id);
+    			return ResponseEntity.status(HttpStatus.OK).body("Post With Id "+id+" Delted Successfully!!");
+    		}
+    		else {
+    			throw new CustomExceptions();
+    		}
+    	}
+    	catch(CustomExceptions ex)
+		{
+			
+			String exception = ex.getMessageforpost(id);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception);
+			
+		}
+    }
 
 }

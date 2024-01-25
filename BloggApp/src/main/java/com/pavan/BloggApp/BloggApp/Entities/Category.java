@@ -77,6 +77,14 @@ public class Category {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", categorytitle=" + categorytitle + ", categorydescription="
+				+ categorydescription + ", posts=" + posts + "]";
+	}
+	
 	
 	
 
