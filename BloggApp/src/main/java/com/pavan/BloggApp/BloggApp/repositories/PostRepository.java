@@ -10,8 +10,23 @@ import com.pavan.BloggApp.BloggApp.Entities.User;
 
 public interface PostRepository extends JpaRepository<Post, Integer>{
 
+Object findByCategoryTitle = null;
+
 public	List<Post> findByCategory(Category category);
 
 public List<Post> findByUser(User user);
+
+public List<Post> findByTitleContaining(String keyword);
+
+List<Post> findAllByCategory_Id(int categoryId);
+
+
+
+
+
+
+
+
+
 
 }

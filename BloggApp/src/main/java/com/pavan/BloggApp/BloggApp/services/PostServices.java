@@ -3,7 +3,6 @@ package com.pavan.BloggApp.BloggApp.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -232,5 +231,65 @@ public class PostServices {
 			
 		}
     }
+    
+    
+    
+    
+    //SEARCH POST BY POST TITLE
+    public ResponseEntity<?> searchpost(String keyword)
+    {
+    
+    	try {
+    		List<Post> posts = postrepo.findByTitleContaining(keyword);
+    		if(posts.isEmpty())
+    		{
+    			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Posts Found By The Title "+keyword+"!!");
+    			
+    		}
+    		
+    		else {
+    			
+    			return ResponseEntity.ok().body(posts);
+
+    		}
+    	}
+    		
+    		catch(Exception ex)
+    		{
+    			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("INTERNAL SERVER ERROR!!");
+    		}
+    }
+    
+    
+    
+    
+    //SEARCH POST BY POST CATEGORY
+    public  ResponseEntity<?> searchbycategory(String keyword)
+    {
+    	try {
+    		
+    		Optional<Category> cat = catrepo.findByCategorytitleContaining(keyword);
+    		if(cat.isPresent())
+    		{
+    			Category cat1 =cat.get();
+    			List<Post> posts = postrepo.findAllByCategory_Id(cat1.getId());
+    			return ResponseEntity.ok().body(posts);
+    		}
+    		else {
+    			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("NO POSTS AVAILABLE UNDER THE CATEGORY "+keyword+"!!");
+    		}
+        
+    }
+    	catch(Exception ex)
+    	{
+    		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("INTERNAL SERVER ERROR!!");
+    	}
+    	
+  
+    	
+    }
+    
+    
+    
 
 }

@@ -88,4 +88,22 @@ public class PostController {
 	}
 	
 	
+	//SEARCH POST BY POST TITLE
+	@GetMapping("/search/post/{keyword}")
+	public ResponseEntity<?> searchpost(@PathVariable String keyword)
+	{
+		ResponseEntity<?> response = postservice.searchpost(keyword);
+		return response;
+	}
+	
+	
+	//SEARCH POST BY POST CATEGORY
+	@GetMapping("/search/category/{keyword}")
+	public ResponseEntity<?> searchviacategory(@PathVariable String keyword)
+	{
+		ResponseEntity<?> response = postservice.searchbycategory(keyword);
+		return response;
+	}
+	
+	
 }
