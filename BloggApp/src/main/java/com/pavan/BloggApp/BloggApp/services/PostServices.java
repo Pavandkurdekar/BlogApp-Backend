@@ -1,14 +1,16 @@
 package com.pavan.BloggApp.BloggApp.services;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
 import com.pavan.BloggApp.BloggApp.Entities.Category;
 import com.pavan.BloggApp.BloggApp.Entities.Post;
 import com.pavan.BloggApp.BloggApp.Entities.User;
@@ -16,6 +18,7 @@ import com.pavan.BloggApp.BloggApp.Exceptions.CustomExceptions;
 import com.pavan.BloggApp.BloggApp.repositories.CategoryRepository;
 import com.pavan.BloggApp.BloggApp.repositories.PostRepository;
 import com.pavan.BloggApp.BloggApp.repositories.UserRepo;
+
 
 @Service
 public class PostServices {
@@ -29,10 +32,14 @@ public class PostServices {
     @Autowired
     CategoryRepository catrepo;
 
+    @Autowired
+    FileService fileservice;
     
+    @Value("${project.image}")
+    String path;
     
     // CREATE POST
-    public ResponseEntity<?> createpost(Post post, int uid, int catid) {
+    public ResponseEntity<?> createpost(Post post, int uid, int catid, MultipartFile file) throws IOException {
 
         Optional<User> user = userrepo.findById(uid);
         Optional<Category> category = catrepo.findById(catid);
@@ -46,7 +53,7 @@ public class PostServices {
                     post1.setAddeddate(new Date());
                     post1.setTitle(post.getTitle());
                     post1.setContent(post.getContent());
-                    post1.setImagename(post.getImagename());
+                    post1.setImagename(fileservice.uploadimage(path, file));
                     post1.setUser(u);
                     post1.setCategory(c);
                     Post post2 = postrepo.save(post1);
@@ -149,8 +156,7 @@ public class PostServices {
     
     
     
- 	
-  	//GET SINGLE POST BY ID
+  //GET SINGLE POST BY ID
     public ResponseEntity<?> getpostbyid(int id)
     {
     	try {
@@ -174,9 +180,9 @@ public class PostServices {
     	
     }
     
+  
     
-    
-    
+  
     //UPDATE POST BY ID
 	public ResponseEntity<?> updatepost(Post editedpost, int id) {
 		
