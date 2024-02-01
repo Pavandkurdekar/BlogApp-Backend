@@ -3,9 +3,10 @@ package com.pavan.BloggApp.BloggApp.Entities;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,9 +37,9 @@ public class Post {
 	@ManyToOne
 	private User user;
 	
-	
-	@OneToMany(mappedBy = "post" , cascade = CascadeType.ALL)
-	private List<Comments> comments = new ArrayList<Comments>();
+	@JsonManagedReference
+	@OneToMany(mappedBy = "post" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Comments> comments = new ArrayList<Comments>() ;
 
 	
 

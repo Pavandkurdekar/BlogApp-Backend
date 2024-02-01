@@ -34,6 +34,7 @@ public class CommentServices {
 				
 				Post post1 = post.get();
 				comment.setPost(post1);
+			
 				
 				Comments comment1 = commentrepo.save(comment);
 				
