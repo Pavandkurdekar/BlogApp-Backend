@@ -1,11 +1,16 @@
 package com.pavan.BloggApp.BloggApp.Entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 
 @Entity
@@ -30,6 +35,21 @@ public class Post {
 	
 	@ManyToOne
 	private User user;
+	
+	
+	@OneToMany(mappedBy = "post" , cascade = CascadeType.ALL)
+	private List<Comments> comments = new ArrayList<Comments>();
+
+	
+
+	public List<Comments> getComments() {
+		return comments;
+	}
+
+
+	public void setComments(List<Comments> comments) {
+		this.comments = comments;
+	}
 
 
 	public int getPostid() {
